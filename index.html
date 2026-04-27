@@ -807,9 +807,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.45);padding:28px 52px;disp
 
 
 <!-- ADMIN BUTTON -->
-<button class="edit-fab" id="editFab" title="Edit Site">
-  <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"></path></svg>
-</button>
+
 
 <!-- ADMIN PANEL -->
 <div class="ap-overlay" id="apOverlay">
@@ -1249,7 +1247,7 @@ renderCarousel();
 
 /* ══ ADMIN PANEL ════════════════════════════════════════════ */
 let activeTab='hero';
-document.getElementById('editFab').addEventListener('click',()=>{document.getElementById('apOverlay').classList.add('open');renderTab(activeTab);});
+
 document.getElementById('apClose').addEventListener('click',()=>document.getElementById('apOverlay').classList.remove('open'));
 document.getElementById('apOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('apOverlay'))document.getElementById('apOverlay').classList.remove('open');});
 document.querySelectorAll('.ap-tab').forEach(t=>{t.addEventListener('click',()=>{document.querySelectorAll('.ap-tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');activeTab=t.dataset.tab;renderTab(activeTab);});});
