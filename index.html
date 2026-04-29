@@ -162,6 +162,10 @@ nav.solid .nav-links a{color:var(--text);}
 @media(min-width:769px){
   .about-inline-logo{display:none;}
 }
+
+/* ── IMAGE PROTECTION ────────────────────────────────────── */
+img{-webkit-user-drag:none;user-drag:none;-webkit-user-select:none;user-select:none;}
+.car-slide img,.proj-card img,.lb-img-wrap img,.about-img,.about-inline-logo,.pre-logo{pointer-events:none;}
 /* ══ SECTIONS ════════════════════════════════════════════════ */
 section{padding:90px 52px;}
 .s-label{display:flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--red);margin-bottom:28px;font-weight:700;line-height:2;}
@@ -898,7 +902,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.45);padding:28px 52px;disp
 <footer>
   <div class="foot-logo"><span class="dot"></span>S'thetic Design Studio</div>
   <span>Architecture &amp; Interior Design · Nashik, India</span>
-  <span>© 2025 S'thetic Design Studio. All rights reserved.</span>
+  <span>© 2025 S'thetic Design Studio. All rights reserved. Reproduction of images or content without written permission is strictly prohibited.</span>
 </footer>
 
 
@@ -1360,6 +1364,27 @@ if(workNavBtn && workDropdown){
   }
   requestAnimationFrame(tick);
 })();
+
+// ── IMAGE PROTECTION ─────────────────────────────────────
+document.addEventListener('contextmenu',function(e){
+  if(e.target.tagName==='IMG'){e.preventDefault();return false;}
+});
+document.addEventListener('dragstart',function(e){
+  if(e.target.tagName==='IMG'){e.preventDefault();return false;}
+});
+// Apply draggable=false to all images after DOM ready
+document.querySelectorAll('img').forEach(function(img){
+  img.setAttribute('draggable','false');
+});
+// Observer for dynamically added images
+new MutationObserver(function(muts){
+  muts.forEach(function(m){
+    m.addedNodes.forEach(function(n){
+      if(n.tagName==='IMG') n.setAttribute('draggable','false');
+      if(n.querySelectorAll) n.querySelectorAll('img').forEach(function(img){img.setAttribute('draggable','false');});
+    });
+  });
+}).observe(document.body,{childList:true,subtree:true});
 
 </script>
 
