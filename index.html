@@ -85,11 +85,11 @@ nav.solid .nav-links a{color:var(--text);}
 @media(max-width:768px){
   .ham{display:flex;color:#fff;}
   nav.solid .ham{color:var(--text);}
-  #navLinks{display:none;flex-direction:column;gap:0;position:fixed;top:60px;left:0;right:0;background:rgba(250,250,248,.98);border-bottom:1px solid var(--border);padding:8px 24px 12px;z-index:250;list-style:none;box-shadow:0 4px 16px rgba(0,0,0,.06);}
+  #navLinks{display:none;flex-direction:column;gap:0;position:fixed;top:60px;left:0;right:0;background:rgba(250,250,248,.98);border-bottom:1px solid var(--border);padding:4px 24px 12px;z-index:250;list-style:none;box-shadow:0 4px 16px rgba(0,0,0,.06);}
   #navLinks.open{display:flex;}
-  #navLinks a{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--text) !important;padding:12px 0;border-bottom:1px solid var(--border);font-family:inherit;font-weight:500;}
+  #navLinks a{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--text) !important;padding:12px 0;border-bottom:none;font-family:inherit;font-weight:500;}
   #navLinks a::after{display:none;}
-  #navLinks li:last-child a{border-bottom:none;}
+  
 }
 
   .top-tag-full{display:block;}
@@ -129,8 +129,7 @@ nav.solid .nav-links a{color:var(--text);}
   .work-dropdown{position:static;border:none;box-shadow:none;
     background:none;padding:0;display:none;min-width:unset;overflow:hidden;}
   .work-dropdown.mob-open{display:block;}
-  .work-dropdown li a{font-size:9px;padding:7px 0 7px 10px;color:var(--grey) !important;
-    letter-spacing:.14em;border-bottom:none;}
+  .work-dropdown li a{font-size:9px;padding:7px 0 7px 10px;color:var(--grey) !important;letter-spacing:.14em;border-bottom:none;}
   .work-dropdown li:last-child{border-bottom:none;}
   .work-dropdown li a:hover{padding-left:14px;color:var(--red) !important;}
   .work-chevron{display:inline-block;transition:transform .2s;}
@@ -455,17 +454,14 @@ footer{background:var(--dark);color:rgba(255,255,255,.45);padding:28px 52px;disp
 }
 #preLine{
   background:#e02020;
-  border-radius:2px;
-  width:2px;height:2px;
-  animation:lineGrow 3s cubic-bezier(.4,0,.2,1) .6s forwards;
+  border-radius:1px;
+  width:0;height:2px;
+  position:absolute;bottom:0;left:0;
+  animation:lineGrow 2.1s cubic-bezier(.4,0,.2,1) .5s forwards;
 }
 @keyframes lineGrow{
-  0%  {width:2px;  height:2px;  border-radius:2px;}
-  35% {width:120px;height:2px;  border-radius:1px;}
-  55% {width:220px;height:2px;  border-radius:1px;}
-  70% {width:100vw;height:2px;  border-radius:0;}
-  85% {width:100vw;height:40vh; border-radius:0;}
-  100%{width:100vw;height:100vh;border-radius:0;}
+  0%  {width:0;}
+  100%{width:100vw;}
 }
 .pre-pct{
   position:absolute;
@@ -478,8 +474,9 @@ footer{background:var(--dark);color:rgba(255,255,255,.45);padding:28px 52px;disp
 #preloader.filling .pre-logo,
 #preloader.filling .pre-meta,
 #preloader.filling .pre-studio,
-#preloader.filling .pre-pct{
-  transition:opacity .2s ease;opacity:0!important;
+#preloader.filling .pre-pct,
+#preloader.filling #preLine{
+  transition:opacity .3s ease;opacity:0!important;
 }
 @keyframes preUp{
   from{opacity:0;transform:translateY(8px);}
@@ -1347,18 +1344,21 @@ if(workNavBtn && workDropdown){
     const el = document.getElementById('prePct');
     if(el) el.textContent = Math.floor(p*100)+'%';
     if(p<1) requestAnimationFrame(tick);
-    else if(el) el.textContent='100%';
+    else {
+      if(el) el.textContent='100%';
+      // At 100% — hide UI then fade preloader directly to site, no red screen
+      const pre = document.getElementById('preloader');
+      if(pre){
+        pre.classList.add('filling'); // hides text
+        setTimeout(function(){
+          pre.style.transition='opacity .5s ease';
+          pre.style.opacity='0';
+          setTimeout(function(){ pre.style.display='none'; }, 500);
+        }, 300);
+      }
+    }
   }
   requestAnimationFrame(tick);
-  setTimeout(function(){
-    const pre = document.getElementById('preloader');
-    if(pre) pre.classList.add('filling');
-  }, 2700);
-  setTimeout(function(){
-    const pre = document.getElementById('preloader');
-    if(pre){ pre.style.opacity='0'; pre.style.transition='opacity .3s'; 
-      setTimeout(function(){ pre.style.display='none'; }, 300); }
-  }, 3700);
 })();
 
 </script>
